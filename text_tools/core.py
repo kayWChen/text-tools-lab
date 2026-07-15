@@ -16,3 +16,9 @@ def reverse_words(text: str) -> str:
 def capitalize_each(text: str) -> str:
     """Capitalize the first letter of every word."""
     return " ".join(word.capitalize() for word in text.split())
+
+def char_count(text: str, include_spaces: bool = True) -> int:
+    """Count characters, optionally excluding whitespace."""
+    if include_spaces:
+        return len(text)
+    return len(text.replace(" ", ""))
