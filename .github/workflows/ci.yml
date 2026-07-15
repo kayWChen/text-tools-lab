@@ -1,6 +1,6 @@
 on:
   push:
-  
+
   pull_request:
     branches: [ main ]
 
@@ -29,3 +29,42 @@ jobs:
 
       - name: Run pytest
         run: python -m pytest -v
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install ruff
+        run: pip install ruff
+
+      - name: Check formatting and style
+        run: ruff check .
+
+  build:
+    name: Build package
+    runs-on: ubuntu-latest
+    needs: [test, lint]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Build artifact
+        run: |
+          mkdir -p dist
+          tar -czf dist/text-tools.tar.gz text_tools/
+          echo "Built at $(date)" > dist/build-info.txt
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: text-tools-package
+          path: dist/
