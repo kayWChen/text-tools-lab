@@ -1,7 +1,7 @@
 from text_tools.core import word_count, reverse_words, capitalize_each, char_count
 
 def test_word_count_basic():
-    assert word_count("hello brave new world") == 99 # deliberately wrong
+    assert word_count("hello brave new world") == 4 # deliberately wrong
 
 
 def test_word_count_empty():
